@@ -1,0 +1,57 @@
+# AISPA Audit Configuration
+# Declares where system prompts are located for automated auditing.
+# See: https://github.com/XiangningLin/aispa-audit-action
+
+sources:
+  # Core LLM generator prompts (conversation title, code generation, QA, etc.)
+  - path: "api/core/llm_generator/prompts.py"
+    type: python-constants
+
+  # Agent ReAct prompt templates
+  - path: "api/core/agent/prompt/template.py"
+    type: python-constants
+
+  # Advanced prompt templates
+  - path: "api/core/prompt/prompt_templates/advanced_prompt_templates.py"
+    type: python-constants
+
+  # RAG retrieval prompts (metadata filtering)
+  - path: "api/core/rag/retrieval/template_prompts.py"
+    type: python-constants
+
+  # RAG multi-dataset routing prompt
+  - path: "api/core/rag/retrieval/router/multi_dataset_react_route.py"
+    type: python-constants
+
+  # Knowledge retrieval workflow node prompts
+  - path: "api/core/workflow/nodes/knowledge_retrieval/template_prompts.py"
+    type: python-constants
+
+  # Suggested questions after answer prompt
+  - path: "api/core/app/app_config/features/suggested_questions_after_answer/manager.py"
+    type: python-constants
+
+  # Tool summary prompt
+  - path: "api/core/tools/builtin_tool/tool.py"
+    type: python-constants
+
+  # Web reader tool prompt
+  - path: "api/core/tools/utils/web_reader_tool.py"
+    type: python-constants
+
+  # Prompt template JSON files
+  - path: "api/core/prompt/prompt_templates/common_chat.json"
+    type: json-field
+    fields: ["context_prompt", "histories_prompt", "query_prompt"]
+
+  - path: "api/core/prompt/prompt_templates/common_completion.json"
+    type: json-field
+    fields: ["context_prompt", "histories_prompt", "query_prompt"]
+
+  - path: "api/core/prompt/prompt_templates/baichuan_chat.json"
+    type: json-field
+    fields: ["context_prompt", "histories_prompt", "query_prompt"]
+
+  - path: "api/core/prompt/prompt_templates/baichuan_completion.json"
+    type: json-field
+    fields: ["context_prompt", "histories_prompt", "query_prompt"]

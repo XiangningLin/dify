@@ -1,0 +1,24 @@
+name: AISPA Prompt Audit
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  audit-prompts:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: AISPA Audit
+        id: audit
+        uses: XiangningLin/aispa-audit-action@main
+        with:
+          threshold: 70
+          comment-on-pr: "true"
