@@ -22,3 +22,49 @@ jobs:
         with:
           threshold: 70
           comment-on-pr: "true"
+
+      - name: Send audit report via email
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "AISPA Audit Report - ${{ steps.audit.outputs.status || 'ERROR' }} - ${{ github.repository }}"
+          to: rosielin.xl@gmail.com
+          from: AISPA Audit Bot <${{ secrets.MAIL_USERNAME }}>
+          body: |
+            AISPA System Prompt Audit Report
+            ================================
+
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.head_ref || github.ref_name }}
+            Commit: ${{ github.sha }}
+            Triggered by: ${{ github.actor }}
+            Run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Overall Status: ${{ steps.audit.outputs.status || 'ERROR' }}
+
+            ----------------------------------------
+            Full report is available as a workflow artifact or in the PR comment.
+
+            Action required:
+            - If PASSED: No action needed
+            - If FAILED: Check the critical issues and fix the prompts
+            - If SKIPPED: No prompt files were modified in this PR
+
+            View full details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          html_body: |
+            <h2>AISPA System Prompt Audit Report</h2>
+            <table>
+              <tr><td><b>Repository</b></td><td>${{ github.repository }}</td></tr>
+              <tr><td><b>Branch</b></td><td>${{ github.head_ref || github.ref_name }}</td></tr>
+              <tr><td><b>Commit</b></td><td><code>${{ github.sha }}</code></td></tr>
+              <tr><td><b>Triggered by</b></td><td>${{ github.actor }}</td></tr>
+              <tr><td><b>Overall Status</b></td><td><b>${{ steps.audit.outputs.status || 'ERROR' }}</b></td></tr>
+            </table>
+            <p><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">View full audit report →</a></p>
+            <hr>
+            <p><i>Full report is available as a workflow artifact or in the PR comment.</i></p>
