@@ -10,15 +10,15 @@ METADATA_FILTER_SYSTEM_PROMPT = """
 """  # noqa: E501
 
 METADATA_FILTER_USER_PROMPT_1 = """
-    { "input_text": "I want to know which company’s email address test@example.com is?",
-    "metadata_fields": ["filename", "email", "phone", "address"]
+    { "input_text": "I want to find documents from the company named Acme Corp.",
+    "metadata_fields": ["filename", "company", "department", "category"]
     }
 """
 
 METADATA_FILTER_ASSISTANT_PROMPT_1 = """
 ```json
     {"metadata_map": [
-        {"metadata_field_name": "email", "metadata_field_value": "test@example.com", "comparison_operator": "="}
+        {"metadata_field_name": "company", "metadata_field_value": "Acme Corp", "comparison_operator": "="}
     ]
     }
 ```
@@ -55,8 +55,8 @@ DO NOT include anything other than the JSON array in your response.
 ### Example
 Here is the chat example between human and assistant, inside <example></example> XML tags.
 <example>
-User:{{"input_text": ["I want to know which company’s email address test@example.com is?"], "metadata_fields": ["filename", "email", "phone", "address"]}}
-Assistant:{{"metadata_map": [{{"metadata_field_name": "email", "metadata_field_value": "test@example.com", "comparison_operator": "="}}]}}
+User:{{"input_text": ["I want to find documents from the company named Acme Corp."], "metadata_fields": ["filename", "company", "department", "category"]}}
+Assistant:{{"metadata_map": [{{"metadata_field_name": "company", "metadata_field_value": "Acme Corp", "comparison_operator": "="}}]}}
 User:{{"input_text": "What are the movies with a score of more than 9 in 2024?", "metadata_fields": ["name", "year", "rating", "country"]}}
 Assistant:{{"metadata_map": [{{"metadata_field_name": "year", "metadata_field_value": "2024", "comparison_operator": "="}, {{"metadata_field_name": "rating", "metadata_field_value": "9", "comparison_operator": ">"}}]}}
 </example>
